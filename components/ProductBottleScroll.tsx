@@ -33,7 +33,8 @@ export default function ProductBottleScroll({ product }: ProductBottleScrollProp
 
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
-            img.src = `${product.folderPath}/${i}.jpg`;
+            const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+            img.src = `${basePath}${product.folderPath}/${i}.jpg`;
             img.onload = () => {
                 loadedCount++;
                 if (loadedCount === totalFrames) {
