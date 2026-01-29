@@ -14,6 +14,7 @@ export default function ProductBottleScroll({ product }: ProductBottleScrollProp
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [images, setImages] = useState<HTMLImageElement[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [debugError, setDebugError] = useState<string | null>(null);
 
     // Scroll Progress (0 to 1) attached to container
     const { scrollYProgress } = useScroll({
@@ -21,27 +22,40 @@ export default function ProductBottleScroll({ product }: ProductBottleScrollProp
         offset: ["start start", "end end"],
     });
 
-    // Map scroll progress to frame index (0 to 119)
-    const frameIndex = useTransform(scrollYProgress, [0, 1], [0, 119]);
+    // Map scroll progress to frame index (0 to totalFrames - 1)
+    const totalFrames = product.frameCount || 120;
+    const frameIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
 
     // Preload images
     useEffect(() => {
         setIsLoaded(false);
+        setDebugError(null); // Reset error state on new product/load attempt
         const loadedImages: HTMLImageElement[] = [];
         let loadedCount = 0;
-        const totalFrames = 120;
 
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
             const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-            img.src = `${basePath}${product.folderPath}/${i}.jpg`;
-            img.onload = () => {
+
+            const filename = `${i}.jpg`;
+            img.src = `${basePath}${product.folderPath}/${filename}`;
+
+            const onComplete = () => {
                 loadedCount++;
                 if (loadedCount === totalFrames) {
                     setImages(loadedImages);
                     setIsLoaded(true);
                 }
             };
+
+            img.onload = onComplete;
+            img.onerror = () => {
+                console.error(`Failed to load image: ${img.src}`);
+                // Only set the debug error for the first encountered error
+                setDebugError((prevError) => prevError === null ? `Failed to load: ${img.src}` : prevError);
+                onComplete(); // Count as loaded to prevent hanging
+            };
+
             // Ensure strictly ordered array
             loadedImages[i - 1] = img;
         }
@@ -72,11 +86,12 @@ export default function ProductBottleScroll({ product }: ProductBottleScrollProp
 
         const render = () => {
             // Get current frame index from MotionValue
+            const totalFrames = product.frameCount || 120;
             const currentFrame = Math.floor(frameIndex.get());
-            const clampedFrame = Math.max(0, Math.min(119, currentFrame));
+            const clampedFrame = Math.max(0, Math.min(totalFrames - 1, currentFrame));
             const img = images[clampedFrame];
 
-            if (img) {
+            if (img && img.complete && img.naturalWidth > 0) {
                 ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
 
                 // "Cover" fit logic (Full Width/Height filling)
@@ -123,6 +138,15 @@ export default function ProductBottleScroll({ product }: ProductBottleScrollProp
                 {!isLoaded && (
                     <div className="absolute inset-0 flex items-center justify-center z-50 text-white font-bold text-2xl animate-pulse bg-black/20 backdrop-blur-sm">
                         Loading Freshness...
+                    </div>
+                )}
+
+                {/* Debug Error Message */}
+                {debugError && (
+                    <div className="absolute top-20 left-10 p-4 bg-red-900/80 text-white z-50 rounded max-w-lg break-words">
+                        <h3 className="font-bold">Image Load Error:</h3>
+                        <p>{debugError}</p>
+                        <p className="text-sm mt-2 opacity-80">Check console for more details.</p>
                     </div>
                 )}
 

@@ -22,9 +22,58 @@ export interface Product {
         deliveryPromise: string;
         returnPolicy: string;
     };
+    frameCount?: number;
 }
 
 export const products: Product[] = [
+    {
+        id: "mazaa",
+        name: "Mazaa Gold",
+        subName: "The royal indulgence.",
+        price: "₹130",
+        description: "Alphonso Pulp - Thick & Sweet - 100% Maaza",
+        folderPath: "/images/mazaa",
+        themeColor: "#F4BB44",
+        gradient: "linear-gradient(135deg, #F4BB44 0%, #FFA726 100%)",
+        features: ["Rich Alphonso", "Thick Pulp", "Real Taste"],
+        stats: [
+            { label: "Pulp", val: "100%" },
+            { label: "Sugar", val: "Natural" },
+            { label: "Joy", val: "Infinite" },
+        ],
+        section1: { title: "Mazaa Gold.", subtitle: "The royal indulgence." },
+        section2: {
+            title: "Thick, sweet, irresistible.",
+            subtitle:
+                "Made from the finest hand-picked mangoes, delivering a rich and velvety experience.",
+        },
+        section3: {
+            title: "A sip of summer.",
+            subtitle:
+                "Enjoy the lush taste of Alphonso mangoes in every bottle, all year round.",
+        },
+        section4: { title: "Pure mango bliss.", subtitle: "" },
+        detailsSection: {
+            title: "The Ultimate Mango Experience",
+            description:
+                "Mazaa is synonymous with the very essence of mango. We select only the best Alphonso mangoes to create a pulp so thick and sweet, it feels like biting into the fruit itself. Perfect for those who crave the authentic taste of Indian summers.",
+            imageAlt: "Mazaa Details",
+        },
+        freshnessSection: {
+            title: "Sealed Freshness",
+            description:
+                "Our specialized aseptic packaging ensures that the rich flavor and nutrition of the mangoes are locked in without the need for preservatives. Every sip tastes as fresh as the day it was pulped.",
+        },
+        buyNowSection: {
+            price: "₹130",
+            unit: "per 300ml bottle",
+            processingParams: ["Thick Pulp", "No Preservatives", "Pasteurized"],
+            deliveryPromise:
+                "Delivered safely to your door. Best served chilled.",
+            returnPolicy: "Love the taste or we'll make it right.",
+        },
+        frameCount: 240,
+    },
     {
         id: "mango",
         name: "Cream Mango",
@@ -72,53 +121,7 @@ export const products: Product[] = [
             returnPolicy:
                 "100% Satisfaction Guarantee. Not happy? We'll replace it, no questions asked.",
         },
-    },
-    {
-        id: "chocolate",
-        name: "Dutch Chocolate",
-        subName: "Velvety smooth.",
-        price: "₹140",
-        description: "Premium Cocoa - Almond Milk base - Plant Protein",
-        folderPath: "/images/chocolate",
-        themeColor: "#8D6E63",
-        gradient: "linear-gradient(135deg, #8D6E63 0%, #5D4037 100%)",
-        features: ["Premium Cocoa", "Almond Milk", "Plant Protein"],
-        stats: [
-            { label: "Dairy", val: "0%" },
-            { label: "Protein", val: "12g" },
-            { label: "Cocoa", val: "100%" },
-        ],
-        section1: { title: "Dutch Chocolate.", subtitle: "Velvety smooth." },
-        section2: {
-            title: "Decadence redefined.",
-            subtitle:
-                "Rich, dark cocoa blended with creamy almond milk for a guilt-free treat.",
-        },
-        section3: {
-            title: "Plant-powered energy.",
-            subtitle:
-                "Loaded with natural plant protein to fuel your active lifestyle.",
-        },
-        section4: { title: "Indulgence without compromise.", subtitle: "" },
-        detailsSection: {
-            title: "Ethically Sourced Cocoa",
-            description:
-                "We source our cocoa from sustainable farms in Ghana, ensuring fair wages and premium quality. Blended with our house-made almond milk, this drink offers a silky texture that rivals traditional dairy shakes, but with zero cholesterol and 100% plant-based goodness.",
-            imageAlt: "Chocolate Details",
-        },
-        freshnessSection: {
-            title: "Cold-Crafted Perfection",
-            description:
-                "Heat destroys delicate cocoa flavonoids. That's why we mix our Dutch Chocolate cold. Our almond milk is pressed fresh daily, never stored. The result is a clean, robust chocolate flavor that feels heavy on the tongue but light on the stomach.",
-        },
-        buyNowSection: {
-            price: "₹140",
-            unit: "per 300ml bottle",
-            processingParams: ["Plant Based", "Cold Blended", "Dairy Free"],
-            deliveryPromise:
-                "Shipped in insulated eco-friendly coolers. Keeps perfectly cold for 48 hours.",
-            returnPolicy: "Taste the difference or get your money back.",
-        },
+        frameCount: 200,
     },
     {
         id: "pomegranate",
@@ -166,5 +169,6 @@ export const products: Product[] = [
                 "Direct from the pressery to your doorstep. Guaranteed fresh upon arrival.",
             returnPolicy: "Damaged in transit? Instant replacement available.",
         },
+        frameCount: 240,
     },
 ];
